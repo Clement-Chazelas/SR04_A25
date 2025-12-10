@@ -1,0 +1,22 @@
+#include "DHT.h"
+#define DHTPIN 2     
+#define DHTTYPE DHT11   
+DHT dht(DHTPIN, DHTTYPE);
+
+void setup() {
+  Serial.begin(9600);
+  dht.begin();
+}
+
+void loop() {
+  delay(2000);
+  float h = dht.readHumidity();
+  float t = dht.readTemperature();
+
+  if (!isnan(h) && !isnan(t)) {
+    // JSON: {"id": "temperature", "val": 24.0, "unit": "C"}
+    Serial.print("{\"id\": \"temperature\", \"val\": ");
+    Serial.print(t);
+    Serial.println(", \"unit\": \"C\"}");
+  }
+}
